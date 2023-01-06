@@ -780,7 +780,7 @@ public sealed class Game : Actor<GameData, GameLogic>
             }
         }, 5000);
 
-    private void OnMediaLoaded(Message message) => _gameActions.SendMessageToWithArgs(ClientData.ShowMan.Name, Messages.MediaLoaded, message.Sender);
+    private void OnMediaLoaded(Message message) => _gameActions.SendMessageToWithArgs(NetworkConstants.Everybody, Messages.MediaLoaded, message.Sender);
 
     private void OnToggle(Message message, string[] args)
     {
