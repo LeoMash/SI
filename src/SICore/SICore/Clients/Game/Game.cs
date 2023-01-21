@@ -610,6 +610,10 @@ public sealed class Game : Actor<GameData, GameLogic>
                         OnAtom();
                         break;
 
+                    case Messages.MediaPreloaded:
+                        OnMediaPreloaded(message);
+                        break;
+
                     case Messages.MediaLoaded:
                         OnMediaLoaded(message);
                         break;
@@ -781,6 +785,8 @@ public sealed class Game : Actor<GameData, GameLogic>
         }, 5000);
 
     private void OnMediaLoaded(Message message) => _gameActions.SendMessageToWithArgs(NetworkConstants.Everybody, Messages.MediaLoaded, message.Sender);
+    
+    private void OnMediaPreloaded(Message message) => _gameActions.SendMessageToWithArgs(NetworkConstants.Everybody, Messages.MediaPreloaded, message.Sender);
 
     private void OnToggle(Message message, string[] args)
     {

@@ -574,9 +574,10 @@ public abstract class Viewer<L> : Actor<ViewerData, L>, IViewerClient
 
                         if (ClientData.Stage != GameStage.Before)
                         {
-                            for (int i = 0; i < ClientData.Players.Count; i++)
+                            foreach (var player in ClientData.Players)
                             {
-                                ClientData.Players[i].GameStarted = true;
+                                player.GameStarted = true;
+                                player.MediaPreloaded = false;
                             }
 
                             if (ClientData.ShowMan != null)
@@ -605,10 +606,10 @@ public abstract class Viewer<L> : Actor<ViewerData, L>, IViewerClient
                             case GameStage.Round:
                                 _logic.SetText(mparams[2]);
 
-                                for (int i = 0; i < ClientData.Players.Count; i++)
+                                foreach (var player in ClientData.Players)
                                 {
-                                    ClientData.Players[i].InGame = true;
-                                    ClientData.Players[i].IsChooser = false;
+                                    player.InGame = true;
+                                    player.IsChooser = false;
                                 }
 
                                 break;
@@ -664,7 +665,7 @@ public abstract class Viewer<L> : Actor<ViewerData, L>, IViewerClient
                     break;
 
                 case Messages.RoundContent:
-                    _logic.OnRoundContent(mparams);
+                    OnRoundContent(mparams);
                     break;
 
                 case Messages.Theme:
@@ -777,6 +778,10 @@ public abstract class Viewer<L> : Actor<ViewerData, L>, IViewerClient
 
                 case Messages.Atom_Second:
                     _logic.OnSecondAtom(mparams);
+                    break;
+
+                case Messages.MediaPreloaded:
+                    OnMediaPreloaded(mparams);
                     break;
 
                 case Messages.MediaLoaded:
@@ -1057,6 +1062,23 @@ public abstract class Viewer<L> : Actor<ViewerData, L>, IViewerClient
         _logic.Choice();
     }
 
+    private void OnMediaPreloaded(string[] mparams)
+    {
+        if (mparams.Length < 2)
+        {
+            return;
+        }
+
+        var player = ClientData.Players.FirstOrDefault(p => p.Name == mparams[1]);
+
+        if (player == null)
+        {
+            return;
+        }
+
+        player.MediaPreloaded = true;
+    }
+
     private void OnMediaLoaded(string[] mparams)
     {
         if (mparams.Length < 2)
@@ -1206,6 +1228,11 @@ public abstract class Viewer<L> : Actor<ViewerData, L>, IViewerClient
 
     private void OnAd(string? text = null) => Ad?.Invoke(text);
 
+    private void OnRoundContent(string[] mparams)
+    {
+        _logic.OnRoundContent(mparams);
+    }
+    
     private void OnRoundThemes(string[] mparams)
     {
         var print = mparams[1] == "+";

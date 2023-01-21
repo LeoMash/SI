@@ -47,6 +47,17 @@
                         ToolTip="{x:Static lp:Resources.MediaLoaded}"
                         Visibility="{Binding MediaLoaded, Converter={StaticResource BooleanToVisibilityConverter1}}" />
 
+                    <Rectangle
+                        Width="15"
+                        Height="15"
+                        Fill="Red"
+                        Stroke="Black"
+                        Margin="0,0,-1,-1"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        ToolTip="{x:Static lp:Resources.MediaPreloaded}"
+                        Visibility="{Binding MediaPreloaded, Converter={StaticResource BooleanToVisibilityConverter1}}" />
+
                     <ProgressBar
                         VerticalAlignment="Top"
                         HorizontalAlignment="Stretch"

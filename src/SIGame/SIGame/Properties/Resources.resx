@@ -1062,6 +1062,9 @@
   <data name="MediaLoaded" xml:space="preserve">
     <value>Media has been loaded</value>
   </data>
+  <data name="MediaPreloaded" xml:space="preserve">
+    <value>Media has been preloaded</value>
+  </data>
   <data name="WebViewWrongFormat" xml:space="preserve">
     <value>HTML viewer is broken. Current x64 architecture: {0}</value>
   </data>

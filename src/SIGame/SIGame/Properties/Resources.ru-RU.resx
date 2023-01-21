@@ -1062,6 +1062,9 @@
   <data name="MediaLoaded" xml:space="preserve">
     <value>Медиа загружено</value>
   </data>
+  <data name="MediaPreloaded" xml:space="preserve">
+    <value>Медиа предзагружено</value>
+  </data>
   <data name="WebViewWrongFormat" xml:space="preserve">
     <value>HTML компонент сломался. Текущая архитектура x64: {0}</value>
   </data>

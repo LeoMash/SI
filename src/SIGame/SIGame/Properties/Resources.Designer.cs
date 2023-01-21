@@ -1418,7 +1418,16 @@ namespace SIGame.Properties {
                 return ResourceManager.GetString("MediaLoaded", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Media has been preloaded.
+        /// </summary>
+        public static string MediaPreloaded {
+            get {
+                return ResourceManager.GetString("MediaPreloaded", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Ищет локализованную строку, похожую на Multimedia port.
         /// </summary>

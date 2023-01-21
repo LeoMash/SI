@@ -57,6 +57,8 @@ public class ViewerHumanLogic : Logic<ViewerData>, IViewerLogic
         _localFileManagerTask = _localFileManager.StartAsync(_cancellation.Token);
     }
 
+    private void LocalFileManager_MediaPreloaded() => _viewerActions.SendMessage(Messages.MediaPreloaded);
+
     private void TInfo_MediaLoad() => _viewerActions.SendMessage(Messages.MediaLoaded);
 
     private void TInfo_MediaLoadError(Exception exc)
@@ -1257,6 +1259,7 @@ public class ViewerHumanLogic : Logic<ViewerData>, IViewerLogic
 
     public void OnRoundContent(string[] mparams)
     {
+        List<Uri> mediaUris = new List<Uri>();
         for (var i = 1; i < mparams.Length; i++)
         {
             var uri = mparams[i];
@@ -1287,12 +1290,24 @@ public class ViewerHumanLogic : Logic<ViewerData>, IViewerLogic
                 continue;
             }
 
-            _localFileManager.AddFile(
-                mediaUri,
-                e => _data.OnAddString(
+            mediaUris.Add(mediaUri);
+        }
+
+        _data.OnAddString(_data.Name, 
+            string.Format($"Starting preloading of {mediaUris.Count} media files..."),
+            LogMode.Protocol);
+        foreach (var uri in mediaUris) {
+            Action<Exception> errCallBack = null;
+            void AddFile() => _localFileManager.AddFile(uri, errCallBack);
+            errCallBack = e => {
+                _data.OnAddString(
                     null,
-                    $"\n{string.Format(R.FileLoadError, Path.GetFileName(mediaUri.ToString()))}: {e.Message}\n",
-                    LogMode.Log));
+                    $"\n{string.Format(R.FileLoadError, Path.GetFileName(uri.ToString()))}: {e.Message}\nRetrying...",
+                    LogMode.Log);
+                AddFile();
+            };
+
+            AddFile();
         }
     }
 

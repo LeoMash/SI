@@ -234,6 +234,11 @@ public static class Messages
     public const string Mark = "MARK";
 
     /// <summary>
+    /// Notifies that the client has preloaded the media for the round.
+    /// </summary>
+    public const string MediaPreloaded = "MEDIAPRELOADED";
+
+    /// <summary>
     /// Notifies that the client has loaded the media.
     /// </summary>
     public const string MediaLoaded = "MEDIALOADED";

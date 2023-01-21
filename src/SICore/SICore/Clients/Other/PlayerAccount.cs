@@ -72,6 +72,17 @@ public sealed class PlayerAccount : PersonAccount
         set { if (_state != value) { _state = value; OnPropertyChanged(); } }
     }
 
+    private bool _mediaPreloaded = false;
+
+    /// <summary>
+    /// Has the player preloaded media files.
+    /// </summary>
+    public bool MediaPreloaded
+    {
+        get => _mediaPreloaded;
+        set { if (_mediaPreloaded != value) { _mediaPreloaded = value; OnPropertyChanged(); } }
+    }
+
     private bool _mediaLoaded = false;
 
     /// <summary>
